@@ -14,7 +14,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     // response is an array
-    this.http.get("http://localhost:5555/user")
+    this.http.get("http://localhost:3000/user")
     .subscribe((users)=>{
       this.httpdata=users;
       console.log(this.httpdata)

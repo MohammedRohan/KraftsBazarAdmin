@@ -9,7 +9,8 @@ var AdminSchema = new Schema({
     title : String,
     mail : String,
     contact : String,
-    image : String
+    image : String,
+    password : String
 });
 
 var Admindata = mongoose.model('admin', AdminSchema);

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule , HttpInterceptor, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ValidateproductsComponent } from './validateproducts/validateproducts.component';
@@ -11,6 +11,12 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { CheckproductreviewComponent } from './checkproductreview/checkproductreview.component';
 import { VerifyproductComponent } from './verifyproduct/verifyproduct.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './auth.service';
+import { FormsModule } from '@angular/forms';
+import { TokenInterceptorService } from './token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -22,14 +28,24 @@ import { VerifyproductComponent } from './verifyproduct/verifyproduct.component'
     FooterComponent,
     HomeComponent,
     CheckproductreviewComponent,
-    VerifyproductComponent
+    VerifyproductComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthService,
+  {
+    provide:HTTP_INTERCEPTORS,
+    useClass:TokenInterceptorService,
+    multi: true
+  } 
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,17 +3,48 @@ const express = require('express');
 const InitiateMongoServer = require("./db");
 InitiateMongoServer();
 
+const jwt = require('jsonwebtoken')
+
 const AdminData = require('./src/model/Admindata');
 const WaitingData = require('./src/model/Waitingdata');
+const BuyerData = require('./src/model/buyerData');
+const SellerData = require('./src/model/sellerData');
 
 
 const cors = require('cors');
 var bodyparser=require('body-parser');
 const app = express();
+app.use(express.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 
 // share data to angular server
 app.use(cors());
+
+const WaitingRouter = require('./src/routes/waitingproducts');
+const Waitingdata = require('./src/model/Waitingdata');
+app.use('/validate', WaitingRouter)
+
+// username = "admin"
+// password = "1234"
+
+function verifyToken(req,res,next){
+    if(!req.headers.authorization) {
+        return res.status(401).send('Unauthorized request')
+      }
+      let token = req.headers.authorization.split(' ')[1]
+      if(token === 'null') {
+        return res.status(401).send('Unauthorized request')    
+      }
+      let payload = jwt.verify(token, 'secretKey')
+      if(!payload) {
+        return res.status(401).send('Unauthorized request')    
+      }
+      req.userId = payload.subject
+      next()
+
+}
 
 
 app.get('/user', function(req,res){
@@ -28,20 +59,105 @@ app.get('/user', function(req,res){
     
     
 });
-app.get('/validate', function(req,res){
-    res.header("Access-Control-Allow-orgin","*")
-    res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT,DELETE, OPTIONS')
-    WaitingData.find()
-    .then(function(waitings){
-        
-        res.send(waitings);
+
+app.post('/login', (req, res)=> {
+    // res.header("Access-Control-Allow-orgin","*")
+    // res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT,DELETE, OPTIONS')
+
+    var user=req.body.user;
+    var pwd=req.body.pwd;
+    var avatar = req.body.avatar
+
+    if (avatar == "Seller" || avatar == "seller"){
+        SellerData.findOne({username:user})
+        .then(function(usr){
+            if (usr.password == pwd){
+                let payload ={subject:user+pwd}
+                let token = jwt.sign(payload,'secretKey')
+                res.status(200).send({token})
+
+            }
+            else{
+                res.status(401).send('Invalid Password')
+
+            }
+        })
+    }
+    if (avatar == "Buyer" || avatar == "buyer"){
+        BuyerData.findOne({username:user})
+        .then(function(usr){
+            if (usr.password == pwd){
+                let payload ={subject:user+pwd}
+                let token = jwt.sign(payload,'secretKey')
+                res.status(200).send({token})
+
+            }
+            else{
+                res.status(401).send('Invalid Password')
+
+            }
+        })
+    }
+    if (avatar == "Admin" || avatar == "admin"){
+        AdminData.findOne({username:user})
+        .then(function(usr){
+            if (usr.password == pwd){
+                let payload ={subject:user+pwd}
+                let token = jwt.sign(payload,'secretKey')
+                res.status(200).send({token})
+
+            }
+            else{
+                res.status(401).send('Invalid Password')
+
+            }
+        })
+    }
+    
+    
+   
     });
 
-    
-    
-});
+app.post('/adduser', function(req,res){
+    res.header("Access-Control-Allow-Origin","*")
+    res.header('Access-Control-Allow-Methods: GET,POST,PATCH,PUT,DELETE,OPTIONS')
+    console.log(req.body);
+    var avatar=req.body.user.avatar;
+    var user = {
+        username:req.body.user.username,
+        number:req.body.user.number,
+        email:req.body.user.email,
+        password:req.body.user.password,
+        
+    }
+    if (avatar=="Seller" || avatar== "seller"){
+        var user = new SellerData(user);
+        user.save();
 
-const port = process.env.PORT | 5555;
+    }
+    if (avatar=="Buyer" || avatar== "buyer"){
+        var user = new BuyerData(user);
+        user.save();
+
+    }
+})    
+
+app.delete('/delete/:id',(req,res)=>{
+
+
+   
+    id = req.params.id;
+    console.log(id);
+    WaitingData.deleteOne({_id:id})
+    .then(()=>{
+        console.log('success')
+        res.send();
+    })
+  })
+
+
+
+const port = process.env.PORT | 3000;
 app.listen(port, function () {
     console.log("Listening at " + port);
 });
