@@ -4,15 +4,14 @@ mongoose.connect('mongodb+srv://adminone:adminone@kraftsbazardatas.vkggh.mongodb
 const Schema = mongoose.Schema;
 
 
-var AdminSchema = new Schema({
+var SellerSchema = new Schema({
     username : String,
-    title : String,
-    mail : String,
-    contact : String,
-    image : String,
-    password : String
+    number : Number,
+    email : String,
+    password : String,
+    
 });
 
-var Admindata = mongoose.model('admin', AdminSchema);
+var Sellerdata = mongoose.model('seller', SellerSchema);
 
-module.exports = Admindata;
+module.exports = Sellerdata;

@@ -21,18 +21,26 @@
 
               <li  style="padding: 10px;" >
                 <a routerLink="/validate" class="navbar-brand" style="text-decoration: none;" >Verify Products</a>
+              <li  style="padding: 10px;" >
+                <a routerLink="/validate" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()" >Verify Products</a>
                 
               </li>
               
               <li  style="padding: 10px;"  >
-                <a routerLink="/checkreview" class="navbar-brand" style="text-decoration: none;" >Check Review</a>
+                <a routerLink="/checkreview" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()" >Check Review</a>
               </li>
               <li  style="padding: 10px;"  >
-                <a routerLink="/user" class="navbar-brand" style="text-decoration: none;" >User</a>
+                <a routerLink="/user" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()"  >User</a>
               </li>
               
               <li   style="padding: 10px;"  >
-                <a routerLink="/login" class="navbar-brand" style="text-decoration: none;">Log Out</a>
+                <a routerLink="/login" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()" (click)="logoutUser()">Log Out</a>
+              </li>
+              <li   style="padding: 10px;"  >
+                <a routerLink="/login" routerLinkActive="active" class="navbar-brand" *ngIf="!_auth.loggedIn()" style="text-decoration: none;">Log In</a>
+              </li>
+              <li   style="padding: 10px;"  >
+                <a routerLink="/register" class="navbar-brand" style="text-decoration: none;" *ngIf="!_auth.loggedIn()">Register</a>
               </li>
               
               
