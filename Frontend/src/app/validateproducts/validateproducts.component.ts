@@ -11,6 +11,7 @@ import { WaitingproductsService } from '../waitingproducts.service';
 })
 export class ValidateproductsComponent implements OnInit {
   httpdata;
+  products:ProductsModel[]=[];
 
   // constructor(public http:HttpClient) { }
 
@@ -26,14 +27,13 @@ export class ValidateproductsComponent implements OnInit {
   ngOnInit(): void {
     this.waiting.getProducts().subscribe(data => {
       this.products=JSON.parse(JSON.stringify(data));
-      this.http.get("http://localhost:5555/validate")
+      this.http.get("http://localhost:3000/validate")
     .subscribe((waitings)=>{
       this.httpdata=waitings;
-      console.log(this.httpdata)
-  products:ProductsModel[]=[];
+      console.log(this.httpdata)})
+     
 
-    })
+    });
 
   }
-
 }

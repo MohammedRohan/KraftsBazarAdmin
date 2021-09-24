@@ -83,7 +83,45 @@ app.post('/addproduct' , function(req, res){
     console.log('saved')
 });
 
-const port = process.env.PORT || 5555;
+// app.put('/upproduct' , function(req, res){
+//     id = req.params.id;
+//     console.log(id)
+//     const pro= new WaitingData({
+//         pname:req.body.data.pname,
+//         sname:req.body.data.sname,
+//         material:req.body.data.material,
+//         image:req.body.data.image,
+//         disc:req.body.data.disc
+//     })
+//     pro.update();
+//     // WaitingData.deleteOne({_id:id})
+//     console.log('saved')
+// });
+app.put('/upproduct', (req, res) => {
+    console.log(req.body)
+    id = req.body.data._id,
+            pname=req.body.data.pname,
+            sname=req.body.data.sname,
+            material=req.body.data.material,
+            image=req.body.data.image,
+            disc=req.body.data.disc
+
+            WaitingData.findByIdAndUpdate({ "_id": id }, {
+            $set: {
+                "pname": pname,
+                "sname": sname,
+                "material": material,
+                "image": image,
+                "disc": disc,
+                
+            }
+        })
+        .then(function() {
+            res.send();
+        })
+})
+
+// const port = process.env.PORT || 5555;
 
 app.post('/login', (req, res)=> {
     // res.header("Access-Control-Allow-orgin","*")

@@ -12,7 +12,9 @@
                   <div class="form-group mb-3 clr">
                     <label for="name">Product Name
                     </label>
-                    <input id="name" name="name" type="text" class="form-control validate" required="" [(ngModel)]="addproduct.pname">
+                    <!-- Example 1: <input [(ngModel)]="person.firstName" name="first">
+                    Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}"> -->
+                    <input id="name" name="pname" type="text" class="form-control validate" required="" [(ngModel)]="addproduct.pname">
                   </div>
                   <div class="form-group mb-3 clr">
                     <label for="description">Description</label>

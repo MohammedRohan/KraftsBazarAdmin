@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './token-interceptor.service';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +32,10 @@ import { TokenInterceptorService } from './token-interceptor.service';
     HomeComponent,
     CheckproductreviewComponent,
     VerifyproductComponent,
-    AddProductsComponent
+    AddProductsComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,

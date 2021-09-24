@@ -15,12 +15,12 @@
 
             
               <li  style="padding: 10px;" >
-               <a routerLink="/addproducts" class="navbar-brand" style="text-decoration: none;" >Add Products</a>
+               <a routerLink="/addproducts" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()" >Add Products</a>
               
               </li>
 
-              <li  style="padding: 10px;" >
-                <a routerLink="/validate" class="navbar-brand" style="text-decoration: none;" >Verify Products</a>
+              <!-- <li  style="padding: 10px;" >
+                <a routerLink="/validate" class="navbar-brand" style="text-decoration: none;" >Verify Products</a> -->
               <li  style="padding: 10px;" >
                 <a routerLink="/validate" class="navbar-brand" style="text-decoration: none;" *ngIf="_auth.loggedIn()" >Verify Products</a>
                 
